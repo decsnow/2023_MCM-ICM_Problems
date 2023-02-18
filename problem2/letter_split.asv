@@ -1,9 +1,0 @@
-for i=1:359
-    for j=1:5
-        for k=1:26
-if letters(i,j)==lut1(k,1)
-    score(i)=score
-end
-        end
-    end
-end
