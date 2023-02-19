@@ -1,0 +1,603 @@
+%% 美赛模板：正文部分
+
+\documentclass[12pt]{article}  % 官方要求字号不小于 12 号，此处选择 12 号字体
+
+% 本模板不需要填写年份，以当前电脑时间自动生成
+% 请在以下的方括号中填写队伍控制号
+\usepackage[2306372]{easymcm}  % 载入 EasyMCM 模板文件
+\problem{C}  % 请在此处填写题号
+\usepackage{mathptmx}  % 这是 Times 字体，中规中矩 
+%\usepackage{mathpazo}  % 这是 COMAP 官方杂志采用的更好看的 Palatino 字体，可替代以上的 mathptmx 宏包
+
+\title{An MCM Paper Made by Team 2306372}  % 标题
+
+% 如需要修改题头（默认为 MCM/ICM），请使用以下命令（此处修改为 MCM）
+%\renewcommand{\contest}{MCM}
+
+% 文档开始
+\begin{document}
+
+% 此处填写摘要内容
+\begin{abstract}
+In today's society, the game industry is booming and more and more people are participating in the game industry. Games have become part of everyone's life.So many games are so well made and so expensive that games are now known as the Ninth art.
+
+The wordle this game, only five letters, simple game six speculation has attracted millions of people visit, hundreds of thousands of twitter to share every day.The popularity of the game has also attracted the attention of all sectors of society. The New York Times invited us to build a model to predict how the number of Wordle users changes and how word attributes influence the number of guesses and accuracy of users.
+
+At the beginning, our team thought that the first question was very simple. We used \textbf{simple exponential fitting and Gaussian fitting} to complete the first question to predict the number of people on March 1st. And the fitting effect was very good. The number of people predicted by the simple exponential fitting on March 1 was 18,785, and the goodness of fit:
+$R^2 = 0.9968$. 
+The number of people predicted by the Gaussian fitting on March 1 is 13,914, and the goodness of fit:
+$R^2 = 0.9892$.
+But we later found out that all of the data was shared by Twitter users and not by all of the players. The idea of survivor bias immediately came to our  mind.Immediately decided to use SIRS(Susceptible, Exposed, Infectious, Recovered) model.And the outcome of SIRS model is 20,720.
+
+
+For the solution of the second and third problems, we firstly constructed a model for problem 3 and using the model to evluate the distribution of problem 2.
+
+For the problem 3 mopodel, we score for all the words from 0(min) to 1(max), we use the \textbf{hierarchy analysis, analysis of various factors} on the data given on the website.For all grade is divided into 5 sections (0-0.25), (0.25-0.30), (0.30-0.37), (0.37-0.7), (0.7-1.0) (divided according to the number of samples, each section of grade has the relatively same amount of words). For the given word EERIE we first calculate its score using the model we developed in the problem 3 to evaluate it to get a score, and see which grade section the score is in. And the corresponding proportion of 1,2,3,4,5,6,X fitted by normal distribution is the result we want.
+
+At last the distribution we claculated is 1 try: 0\%, 2 tries:4\%, 3 tries 21\%, 4 tries 34\%, 5 tries24\%, 6 tries12\%, X 3\%.
+
+
+After evaluating all the words, the cocorrelation coefficient between our evaluation system and the average number of tries can reach over 0.5, which is a strongly related. EERIE used the above evaluation system to get his relevant grade. His greade in our system is 0.6046, which is relatively a difficult word!
+
+
+
+
+    % 美赛论文中无需注明关键字。若您一定要使用，
+    % 请将以下两行的注释号 '%' 去除，以使其生效
+     \vspace{5pt}
+     \textbf{Keywords}: Exponential Fitting, Normal Distribution Fitting, Infection Model, Correlation Coefficient, Normalization, Analytic Hierarchy Process 
+
+\end{abstract}
+
+\maketitle  % 生成 Summary Sheet
+\tableofcontents  % 生成目录
+
+
+% 正文开始
+\section{Introduction}
+\subsection{Problem Background}
+The New York Times wordle game was born. The simple five-letter, six-guess game rules aroused wide attention of the society. And the effect of the attributes of the word on the result of the guess got us thinking. After a cursory search, we found that there are as many as 30,000 five-letter English words, and they cover all aspects of life. The inexhaustible question bank brings new game experiences for everyone. By analyzing the attributes of a word, we can rate the words and identify their difficulty. To better predict how the public will play wordle in the future.
+
+
+Two major problems are discussed in this paper, which are:
+\begin{itemize}
+     \item What are the attributes of a five-letter word.
+    \item Complete the specific and practical word rating program and analyze the difficulty coefficient of five-letter words.
+\end{itemize}
+
+\subsection{Literature Review}
+A literatrue\cite{1} say something about this problem ...
+
+\subsection{Our work}
+
+
+\begin{enumerate}[\bfseries 1.]
+    \item In the solution of problem 1, a broken line statistical chart was made according to 359 figures. After observing the shapes, exponential prediction and Gaussian prediction were used, and the fitting effect was very good. After we noticed the bold font for the tweet, we immediately discussed the SIRS model and the actual number of March 1 game players, so we nested the SRIS model for analysis, and the results were satisfactory.
+    \item In solving the second problem, we fully analyzed the 359 data given, and made statistics and classification. As for the attributes of words, we fully consider the influence of various attributes on the average number of guesses. We analyzed the nine factors of 1 letter frequency 2 word frequency 3 whether there are repetitions letter 4 number of vowels 5 more than three repetitions 6 whether the word starts with a vowel 7 whether the word ends with a vowel 8 consecutive repetitions 9 social hot spots influence these nine factors. Found 1.Word Frequency 2.Letters Frequency 3.Multiple Occurrences of Letters 4.Vowels and Consonants 5.Social hot.Word frequency 2.Letters frequency 3.Multiple occurrences of letters 4.Vowels and consonants 5.Social hot spot is the five most important factors that have a high correlation with the final results.
+    
+    \item We use the analytic hierarchy process evaluation method to grade the difficulty of each word and form a complete evaluation system. When processing data, we adopted appropriate normalization method for different data types, made correlation analysis for each group of data, and formed the final evaluation system for the different sizes of influences produced by different influencing factors by adopting appropriate weighting method, and fully analyzed the situation of the word EERIE required at the end. Came up with our rating of the word.
+\end{enumerate}
+
+\section{Preparation of the Models}
+\subsection{Assumptions}
+1. By making a line chart of 359 numbers in excel, we found that the overall trend was more consistent with Gaussian prediction and exponential prediction, so we nested the models of Gaussian prediction and exponential prediction
+
+2. In the process of reading, we found that Twitter is particularly bold, thought about the survivor bias and the impact of social networks like a disease is contagious, and then found that building an epidemic model may be a better choice.
+
+3.A susceptible person is infected by effective contact with an infected person, becomes infected, can be cured and becomes susceptible again, has temporary immunity, no incubation period. Take one day as the minimum time unit of the model. The total number of people is N, regardless of the birth and death of the population, migration and migration, the total number of people remains the same. The ratio of various groups to the total number of people at time t is denoted as s(t), i(t), r(t) respectively, and the number of various groups is S(t), I(t), R(t). When the initial time t=0, the initial ratio of the number of all types of people is $s_0, i_0, r_0$. The daily exposure number $\gamma$ is the average number of susceptible persons who are effectively exposed to each infected person per day. The daily cure rate is $\mu$. that is, the ratio of the number of patients cured per day to the total number of patients. The average cure day is $\frac{1}{\mu}$. Also known as the average infection period, that is, the number of days from illness to cure. The infectious period contact number $\sigma=\frac{\gamma}{\mu}$is the number of susceptible persons effectively exposed to each infected person within $\frac{1}{\mu}$day of the entire infectious period. Daily immunity loss $\gamma$ is the percentage of the total number of rehabilitated persons who lose immunity each day.
+
+\subsection{Notations}
+The primary notations used in this paper are listed in Table \ref{tb:notation}.
+
+
+
+\section{The Models}
+\subsection{Model 1}
+\subsubsection{Exp prediction and Gaussian prediction}
+The detail can be described by equation :
+
+\begin{equation}
+\large f(x)=a\cdot  e^{bx}+c\cdot e^{dx}
+\end{equation}
+
+$$Coefficient(Confidence \quad bounds: 95\%)$$
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Exp prediction}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Formula}
+			&\multicolumn{1}{m{8cm}}{\centering Range}\\
+			\midrule
+			$ a=7.07\times 10^{5}$ &   \qquad\qquad $(6.83\times 10^{5}, 7.309\times10^{5})$\\
+			$ b=-0.02465 $ &   \qquad\qquad $(-0.02556, -0.02375)$\\
+			$ c=6.184\times 10^{4}$ &  \qquad\qquad  $(5.503\times 10^{4}, 6.864\times 10^{4})$\\
+			$ SSE$ &  \qquad\qquad  $1.0324\times 10^{10}$\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+\begin{equation}
+\large f(x) =  a_1\cdot e^{-\frac{x-b_1}{c_1}^2} + a_2\cdot e^{-\frac{x-b_2}{c_2}^2}
+\end{equation}
+
+$$Coefficient(Confidence bounds: 95\%)$$
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss prediction}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Formula}
+			&\multicolumn{1}{m{8cm}}{\centering Range}\\
+			\midrule
+			$a1 =  1.014\times 10^{18} $&   \qquad\qquad$(-7.45\times 10^{20}, 7.47\times 10^{20})$\\
+			$b1 =  -2997$&   \qquad\qquad $(-8.057\times 10^{4}, 7.457\times 10^{4})$\\
+			$c1 =  565.3$ &  \qquad\qquad  (-6672, 7803)\\
+			$a2 =  2.748\times 10^{4}$&   \qquad\qquad $(6742, 4.822\times 10^{4})$\\
+			$b2 =  244 $&   \qquad\qquad (34.64, 453.3)\\
+			$c2 =  210.6$ &  \qquad\qquad  (-14.9, 436.1)\\
+			$SSE$ &  \qquad\qquad $1.0098\times 10^{10}$\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+
+\begin{figure}[htbp]
+	
+	\begin{subfigure}[b]{.5\textwidth}
+		\includegraphics[width=\textwidth]{exp.jpg}
+		\caption{Exp prediction}\label{subfig:left}
+	\end{subfigure}
+	\begin{subfigure}[b]{.5\textwidth}
+		\includegraphics[width=\textwidth]{gauss.jpg}
+		\caption{Gaussian predicition}\label{subfig:right}
+	\end{subfigure}
+	\caption{The outcome }\label{fig:subfigures}
+	\end{figure}
+
+
+
+The Trust-Region algorithm is used to calculate the number of users on March 1st. The estimated number of people playing Wordle games on March 1st is 18,785 according to Exp's prediction, and the estimated number of people playing Wordle games on March 1st is 13,914 according to Gauss's prediction. After our comparative analysis, we find that the 18,785 predicted by Exp is significantly more in line with the actual results. The Exp prediction model is suitable for those whose changes in the second half are in line with its function characteristics, but it cannot predict the results of the first half very well, because in the actual situation, the number of people playing Wordle games does not conform to the characteristics of the exponential function in the first half. The Gaussian prediction can predict the whole segment, but the fitting degree is not ideal. Since we're predicting the number of players on March 1st, which is the second half of the function, we choose Exp, which predicts 18,785 players on March 1st.\\
+
+
+\subsubsection{Improve:SIRS Model}
+
+
+We used the SIRS model to simulate the players playing Wordle's model, and the population was roughly divided into three categories: susceptible population, diseased population, and recovered population.Corresponding to the game, population is the Wordle game, and enjoy their achievement to twitter.We think that others in the propaganda of the game to the society, they can be seen as a kind of contagion.And the susceptible population is people who never play the game and people who play the game but don't tweet (which our group thinks is very important!).As for the rehabilitation population, it is people who play the game but give up playing the game and think they will not play the game in the future.After this connection was established, our team decided that we could use the SIRS model to predict the number of users on March 1st.Effect should be better than the Exp prediction and Gaussian prediction.
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{1.jpg}
+	\caption{SIRS model}\label{fig:result}
+\end{figure}
+
+
+
+Considering that the spread of games is very similar to the spread of infectious diseases, our team came up with the idea of using the model of infectious diseases to study this problem.
+It is suitable for susceptible people, sick people and recovered people. Recovered people only have temporary immunity. People who become susceptible after unit time are likely to be infected again and get sick.
+
+
+
+\subsubsection{Assumptions of SIRS Model}
+A susceptible person is infected by effective contact with an infected person, becomes infected, can be cured and becomes susceptible again, has temporary immunity, no incubation period. Take one day as the minimum time unit of the model. The total number of people is N, regardless of the birth and death of the population, migration and migration, the total number of people remains the same. The ratio of various groups to the total number of people at time t is denoted as s(t), i(t), r(t) respectively, and the number of various groups is S(t), I(t), R(t). When the initial time t=0, the initial ratio of the number of all types of people is $s_0, i_0, r_0$. The daily exposure number $\gamma$ is the average number of susceptible persons who are effectively exposed to each infected person per day. The daily cure rate is $\mu$. that is, the ratio of the number of patients cured per day to the total number of patients. The average cure day is $\frac{1}{\mu}$. Also known as the average infection period, that is, the number of days from illness to cure. The infectious period contact number $\sigma=\frac{\gamma}{\mu}$is the number of susceptible persons effectively exposed to each infected person within $\frac{1}{\mu}$day of the entire infectious period. Daily immunity loss $\gamma$ is the percentage of the total number of rehabilitated persons who lose immunity each day.
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{The  SRIS model}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Meaning}\\
+			\midrule
+			$S (Susceptible)$&   \qquad\qquad\qquad Infection after contact with an infected person\\
+			$I (Infectious)$&   \qquad\qquad\qquad A patient who can infect others\\
+			$R (Recovered)$ &  \qquad\qquad\qquad  Recover from the disease, but can still be infected\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{2.jpg}
+	\caption{New model}\label{fig:result}
+\end{figure}
+
+As shown in the figure above, each patient can make $\lambda s(t)$ a susceptible person become infected, and the number of patients is $ N i(t)$, so there are $\lambda s(t) N i(t)$ a susceptible person infected every day, that is, the number of new patients every day.
+Out of $ N i(t)$, $\mu n  i(t)$ is cured every day.
+In the $Nr(t)$ of daily recoveries, $ \gamma N r(t)$ loses immunity and becomes susceptible.
+The differential equation can be obtained:
+
+\begin{equation}
+\large N\frac{ds(t)}{dt} =-\lambda N\cdot s(t)i(t)+\gamma N\cdot r(t)
+\end{equation}
+
+\begin{equation}
+\large N\frac{di(t)}{dt} =\lambda N\cdot s(t)i(t)-\mu N\cdot i(t)
+\end{equation}
+
+\begin{equation}
+\large N\frac{dr(t)}{dt} =\mu N\cdot i(t)-\gamma N\cdot r(t)
+\end{equation}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{SRIS1.jpg}
+	\caption{SRIS model}\label{fig:result}
+\end{figure}
+
+
+
+Let's look at the practical application of the model in this problem:
+S represents the group of people who are likely to play the game or are already playing the game but are not tweeting.
+I stands for the person who is playing the game and has already tweeted, after which more S can play the game and tweet.
+R is the people who played the game and lost interest, but over time these people will become S, the probability of continuing to play the game.
+Based on the calculation of the model and the actual data, we assume that the starting number of tweets S (0) is 84,000 (the starting number is not 0 because the data given is not the data from the beginning of the game), the starting number of tweets R (0) is 0, and the total number of tweets N is 525,000.
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{The  SRIS model}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Numerical value}\\
+			\midrule
+		\cr${\gamma}$&   \qquad\qquad\qquad\qquad 0.17\%\\
+		\cr${\mu}$&   \qquad\qquad\qquad\qquad 2\%\\
+		\cr${\lambda}$ &  \qquad\qquad\qquad \qquad 11\%\\
+		\cr$SSE$ &  \qquad\qquad\qquad \qquad $1.4889\times 10^{10}$\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+By substituting the above differential equation and programming simulation, the following results are obtained:
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{2.jpg}
+	\caption{New model}\label{fig:result}
+\end{figure}
+
+\begin{figure}[htbp]
+	
+	\begin{subfigure}[b]{.5\textwidth}
+		\includegraphics[width=\textwidth]{SRIS2.jpg}
+		
+	\end{subfigure}
+	\begin{subfigure}[b]{.5\textwidth}
+		\includegraphics[width=\textwidth]{SRIS3.jpg}
+		
+	\end{subfigure}
+	\caption{The actual outcome }\label{fig:subfigures}
+\end{figure}
+
+So,As you can see from the graph above, the model fits pretty well, with Wordle's projected number of visitors Tweeting on March 1:\textbf{21455}
+
+
+\subsection{Model 2}
+\subsubsection{Basic information of Model 2}
+The model established for the second question and the third question is basically the same. All the words are scored, and all the scores are divided into 5 sections, respectively (0-0.25), (0.25-0.3), (0.3-0.37), (0.37-0.7) (0.7-1.0) (in this way, the score sections are divided according to the number of samples).For each period of normal distribution fittingThe EERIE was analyzed, its score was obtained, its interval was found, and the proportion of 1,2,3,4,5,6, X was calculated by applying the corresponding normal distribution formula
+
+
+Uncertainty: Different grading scales for words may conflict with each other
+Confidence is expressed by correlation coefficient. 0.56 xx
+
+\begin{equation}
+	\large f(x) =  a_1\cdot e^{-\frac{x-b_1}{c_1}^2}
+\end{equation}
+
+$$Coefficient(Confidence bounds: 95\%)$$
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss 1}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Range or Value}\\
+			\midrule
+			$ a1=31.94  $&   \qquad\qquad \qquad Range (28.13, 35.74)\\
+			$ b1=3.892  $&   \qquad\qquad \qquad Range(3.72, 4.064)\\
+			$ c1=1.771  $&   \qquad\qquad \qquad Range(1.527, 2.015)\\
+			$ SSE $&   \qquad\qquad\qquad\qquad 11.09\\
+			$ R^2 $&   \qquad\qquad\qquad\qquad 0.9869\\
+			$  Adjusted\quad  R^2 $&   \qquad\qquad\qquad\qquad 0.9804\\
+			$ RMSE$&   \qquad\qquad\qquad\qquad1.665\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss 2}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Range or Value}\\
+			\midrule
+			$ a1=32.42  $&   \qquad\qquad \qquad Range (28.25, 36.6)\\
+			$ b1=3.976   $&   \qquad\qquad \qquad Range (3.792, 4.16)\\
+			$ c1=1.752  $&   \qquad\qquad \qquad Range(1.491, 2.013)\\
+			$ SSE $&   \qquad\qquad\qquad\qquad13.22\\
+			$ R^2 $&   \qquad\qquad\qquad\qquad 0.9852\\
+			$  Adjusted\quad  R^2 $&   \qquad\qquad\qquad\qquad 0.9778\\
+			$ RMSE$&   \qquad\qquad\qquad\qquad1.818\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss 3}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Range or Value}\\
+			\midrule
+			$ a1=33.68  $&   \qquad\qquad \qquad Range (29.85, 37.51)\\
+			$ b1=4.039  $&   \qquad\qquad \qquad Range (3.883, 4.195)\\
+			$ c1=1.682  $&   \qquad\qquad \qquad Range (1.461, 1.903)\\
+			$ SSE $&   \qquad\qquad\qquad\qquad 10.69\\
+			$ R^2 $&   \qquad\qquad\qquad\qquad0.989\\
+			$  Adjusted\quad  R^2 $&   \qquad\qquad\qquad\qquad 0.9836\\
+			$ RMSE$&   \qquad\qquad\qquad\qquad1.635\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss 4}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Range or Value}\\
+			\midrule
+			$ a1=33.99  $&   \qquad\qquad \qquad Range  (29.83, 38.15)\\
+			$ b1=4.193  $&   \qquad\qquad \qquad Range  (4.026, 4.36)\\
+			$ c1=1.67   $&   \qquad\qquad \qquad Range  (1.434, 1.907)\\
+			$ SSE $&   \qquad\qquad\qquad\qquad 12.54\\
+			$ R^2 $&   \qquad\qquad\qquad\qquad 0.9875\\
+			$  Adjusted\quad  R^2 $&   \qquad\qquad\qquad\qquad 0.9812\\
+			$ RMSE$&   \qquad\qquad\qquad\qquad 1.771\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Gauss 5}
+		\begin{tabular}{cl}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Symbol}
+			&\multicolumn{1}{m{8cm}}{\centering Range or Value}\\
+			\midrule
+			$ a1=33.71  $&   \qquad\qquad \qquad Range    (30.37, 37.04)\\
+			$ b1=4.539  $&   \qquad\qquad \qquad Range    (4.402, 4.675)\\
+			$ c1=1.692    $&   \qquad\qquad \qquad Range  (1.498, 1.887)\\
+			$ SSE $&   \qquad\qquad\qquad\qquad8.131\\
+			$ R^2 $&   \qquad\qquad\qquad\qquad 0.9918\\
+			$  Adjusted\quad  R^2 $&   \qquad\qquad\qquad\qquad 0.9877\\
+			$ RMSE$&   \qquad\qquad\qquad\qquad  1.426\\
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+\begin{figure}[htbp]
+	
+	\begin{subfigure}[b]{.33\textwidth}
+		\includegraphics[width=\textwidth]{normal1.png}
+		\caption{Normal1}\label{subfig:left}
+	\end{subfigure}
+	\begin{subfigure}[b]{.33\textwidth}
+		\includegraphics[width=\textwidth]{normal2.png}
+		\caption{Normal2}\label{subfig:right}
+	\end{subfigure}
+   \begin{subfigure}[b]{.33\textwidth}
+        \includegraphics[width=\textwidth]{normal3.png}
+	    \caption{Normal3}\label{subfig:right}
+    \end{subfigure}
+
+\begin{subfigure}[b]{.33\textwidth}
+		\includegraphics[width=\textwidth]{normal4.png}
+		\caption{Normal4}\label{subfig:left}
+	\end{subfigure}
+	\begin{subfigure}[b]{.33\textwidth}
+		\includegraphics[width=\textwidth]{normal5.png}
+		\caption{Normal5}\label{subfig:right}
+	\end{subfigure}
+
+	\caption{Normal 1-5 }\label{fig:subfigures}
+\end{figure}
+
+\clearpage
+
+In total 
+
+
+
+
+
+
+
+
+
+
+\begin{figure}[htbp]
+    \includegraphics[width=0.9\textwidth]{attribute.png}
+	\caption{ The attritube of words}\label{fig:result}
+\end{figure}
+
+
+\clearpage
+\subsubsection{Commetary on Model 3}
+The instance of long and wide tables are shown in Table \ref{tb:longtable}.
+
+% 长表格示例，更多用法请参考 longtable 宏包文档
+% 以下环境及对应参数可实现表格内的自动换行与表格的自动断页
+% 您也可以选择自行载入 tabularx 宏包，并通过 X 参数指定对应列自动换行
+\begin{longtable}{ p{4em} p{14em} p{14em} }
+\caption{Basic Information about Three Main Continents (scratched from Wikipedia)}
+\label{tb:longtable}\\
+\toprule
+Continent & Description & Information \\
+\midrule
+Africa & Africa Continent is surrounded by the Mediterranean Sea to the
+north, the Isthmus of Suez and the Red Sea to the northeast, the Indian
+Ocean to the southeast and the Atlantic Ocean to the west. &
+At about 30.3 million km$^2$ including adjacent islands, it covers 6\%
+of Earth's total surface area and 20\% of its land area. With 1.3
+billion people as of 2018, it accounts for about 16\% of the world's
+human population. \\
+\midrule
+Asia & Asia is Earth's largest and most populous continent which
+located primarily in the Eastern and Northern Hemispheres.
+It shares the continental landmass of Eurasia with the continent
+of Europe and the continental landmass of Afro-Eurasia with both
+Europe and Africa. &
+Asia covers an area of 44,579,000 square kilometres, about 30\%
+of Earth's total land area and 8.7\% of the Earth's total surface
+area. Its 4.5 billion people (as of June 2019) constitute roughly
+60\% of the world's population. \\
+\midrule
+Europe & Europe is a continent located entirely in the Northern
+Hemisphere and mostly in the Eastern Hemisphere. It comprises the
+westernmost part of Eurasia and is bordered by the Arctic Ocean to
+the north, the Atlantic Ocean to the west, the Mediterranean Sea to
+the south, and Asia to the east. &
+Europe covers about 10,180,000 km$^2$, or 2\% of the Earth's surface
+(6.8\% of land area), making it the second smallest
+continent. Europe had a total population of about 741 million (about
+11\% of the world population) as of 2018. \\
+\bottomrule
+
+\end{longtable}
+
+Figure \ref{fig:subfigures} gives an example of subfigures. Figure \ref{subfig:left} is on the left, and Figure \ref{subfig:right} is on the right.
+
+% 子图（多图并列）示例，更多用法请参考 subfigure 宏包文档
+% 如果您只希望几张图并列，不需要额外的 caption，那么在 figure 环境中
+% 连续插入总宽度不超过 \textwidth 的多个 \includegraphics 命令即可
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{.4\textwidth}
+\includegraphics[width=\textwidth]{water.png}
+\caption{Image on the left}\label{subfig:left}
+\end{subfigure}
+\begin{subfigure}[b]{.4\textwidth}
+\includegraphics[width=\textwidth]{water.png}
+\caption{Image on the right}\label{subfig:right}
+\end{subfigure}
+\caption{Two images}\label{fig:subfigures}
+\end{figure}
+
+\section{Strengths and Weaknesses}
+\subsection{Strengths}
+\begin{itemize}
+    \item First one...
+    \item Second one ...
+\end{itemize}
+
+\subsection{Weaknesses}
+\begin{itemize}
+    \item Only one ...
+ \end{itemize}
+
+
+% 以下为信件/备忘录部分，不需要可自行去掉
+% 如有需要可将整个 letter 环境移动到文章开头或中间
+% 请在第二个花括号内填写标题，如「信件」（Letter）或「备忘录」（Memorandum）
+\begin{letter}{Memorandum}
+\begin{flushleft}  % 左对齐环境，无首行缩进
+\textbf{To:} Heishan Yan\\
+\textbf{From:} Team 1234567\\
+\textbf{Date:} October 1st, 2019\\
+\textbf{Subject:} A better choice than MS Word: \LaTeX
+\end{flushleft}
+
+In the memo, we want to introduce you an alternate typesetting program to the prevailing MS Word: \textbf{\LaTeX}. In fact, the history of \LaTeX\ is even longer than that of MS Word. In 1970s, the famous computer scientist Donald Knuth first came out with a typesetting program, which named \TeX\ \ldots
+
+Firstly, \ldots
+
+Secondly, \ldots
+
+Lastly, \ldots
+
+According to all those mentioned above, it is really worth to have a try on \LaTeX! 
+\end{letter}
+
+
+% 参考文献，此处以 MLA 引用格式为例
+\begin{thebibliography}{99}
+\bibitem{1} Einstein, A., Podolsky, B., \& Rosen, N. (1935). Can quantum-mechanical description of physical reality be considered complete?. \emph{Physical review}, 47(10), 777.
+\bibitem{2} \emph{A simple, easy \LaTeX\ template for MCM/ICM: EasyMCM}. (2018). Retrieved December 1, 2019, from\url{https://www.cnblogs.com/xjtu-blacksmith/p/easymcm.html}
+\end{thebibliography}
+
+
+% 以下为附录内容
+% 如您的论文中不需要附录，请自行删除
+\begin{subappendices}  % 附录环境
+
+\section{Appendix A: Further on \LaTeX}
+To clarify the importance of using \LaTeX\ in MCM or ICM, several points need to be covered, which are \ldots
+
+To be more specific, \ldots
+
+All in all, \ldots
+
+Anyway, nobody \textbf{really} needs such appendix \ldots
+
+\section{Appendix B: Program Codes}
+Here are the program codes we used in our research.
+
+% 代码环境示例三则
+% 如您的论文不需要展示代码，请删除
+% 更多用法，请参考 listings 宏包文档
+
+% Python 代码示例
+\begin{lstlisting}[language=Python, name={test.py}]
+# Python code example
+for i in range(10):
+    print('Hello, world!')
+\end{lstlisting}
+
+% MATLAB 代码示例
+\begin{lstlisting}[language=MATLAB, name={test.m}]
+% MATLAB code example
+for i = 1:10
+    disp("hello, world!");
+end
+\end{lstlisting}
+
+% C++ 代码示例
+\begin{lstlisting}[language=C++, name={test.cpp}]
+// C++ code example
+#include <iostream>
+using namespace std;
+
+int main() {
+    for (int i = 0; i < 10; i++)
+        cout << "hello, world" << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\end{subappendices}  % 附录内容结束
+
+\end{document}  % 结束
