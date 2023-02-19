@@ -1,0 +1,17 @@
+I=1200;
+R=00;
+N=9000;
+S=N-I;
+lemda=0.14;%dongweibafuyang
+mu=0.020;%zhiyu
+gama=0.0020;%jiechuchuanran
+t=1:359;
+for i=1:(size(t,2)-1)
+I(1+i)=I(i)+I(i)*(N-I(i)-R(i))*lemda/N-mu*I(i);
+S(1+i)=S(i)-lemda*I(i)*S(i)/N+gama*R(i);
+R(1+i)=N-I(1+i)-S(1+i);
+end
+plot(t,I,t,S,t,R,t,usernum./60);
+xlabel('时间')
+ylabel('人数')
+legend('患病者','易感者','康复者','real')
