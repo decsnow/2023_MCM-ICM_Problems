@@ -32,6 +32,8 @@ But we later found out that all of the data was shared by Twitter users and not 
 
 For the solution of the second and third problems, we firstly constructed a model for problem 3 and using the model to evluate the distribution of problem 2.
 
+\textbf{Very noteworthy, we found errors in the data! We corrected this based on data from Wrodle's official Twitter posts! Please see Model 1 for a more detailed version of the discovery process.}
+
 For the problem 3 mopodel, we score for all the words from 0(min) to 1(max), we use the \textbf{hierarchy analysis, analysis of various factors} on the data given on the website.For all grade is divided into 5 sections (0-0.25), (0.25-0.30), (0.30-0.37), (0.37-0.7), (0.7-1.0) (divided according to the number of samples, each section of grade has the relatively same amount of words). For the given word EERIE we first calculate its score using the model we developed in the problem 3 to evaluate it to get a score, and see which grade section the score is in. And the corresponding proportion of 1,2,3,4,5,6,X fitted by normal distribution is the result we want.
 
 At last the distribution we claculated is 1 try: 0\%, 2 tries:4\%, 3 tries 21\%, 4 tries 34\%, 5 tries24\%, 6 tries12\%, X 3\%.
@@ -66,7 +68,7 @@ Two major problems are discussed in this paper, which are:
 \end{itemize}
 
 \subsection{Literature Review}
-A literatrue\cite{1} say something about this problem ...
+  As a word guessing game released by New York Times, the analyses that we do on wordle contains not only the word in its database(we analyse the words themselves to get its grade in our system, find the corresponding difficulty level and predict the distribution of the tries it may appear), but also the social relations reflected in the game. Wordle is a time killing game. People can play in almost any of their spare time. This character make it integrated in people's life, those Tweets posted on Twitter, any social hotspot have great influence on the popularity of Wordle, which directly determins the user number and the percetage of players who played in hard mode. 
 
 \subsection{Our work}
 
@@ -280,6 +282,41 @@ By substituting the above differential equation and programming simulation, the 
 
 So,As you can see from the graph above, the model fits pretty well, with Wordle's projected number of visitors Tweeting on March 1:\textbf{21455}
 
+\clearpage
+
+
+\subsubsection{The number of users in Hard Mode analysis}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{HardMode1.png}
+	\caption{The number of users in Hard Mode}\label{fig:result}
+\end{figure}
+
+
+About play difficult patterns percentage, its variation as above, it can be seen that as time goes on, the number of people play hard mode is rising gradually. This is logical, because as you play Wordle, you will become more proficient and will be eager to challenge the more difficult modes.
+
+
+As for the two of these mutations, our interpretation is as follows:According to our review of wordle tags on Twitter, people tend to think they are lucky when they spend less time guessing, so people tend not to play hard mode when they hope to be lucky today (because it will take more time to guess). The first point is Valentine's Day, people hope to get lucky. So fewer people will play hard Mode.
+As for the second, that Halloween is near, the day with 48\% of people don't guess, the more people may be due to falling back, or you want to pull people launching model of psychological encourages others to try hard.But no matter how hard we try to explain, we still can't give our own proper reason, we checked the official Wrodle Twitter post, and found that the above two points are actually \textbf{Wrong} data! We made the correction and then analyzed the change trend.
+
+\clearpage
+
+
+
+\begin{figure}[htbp]
+	
+	\begin{subfigure}[b]{.5\textwidth}
+		\includegraphics[width=\textwidth]{HM1.jpg}
+		\caption{The corrected data on 13 Feb 22}\label{subfig:left}
+	\end{subfigure}
+	\begin{subfigure}[b]{.455\textwidth}
+		\includegraphics[width=\textwidth]{HM2.jpg}
+		\caption{The corrected data on 16 Sep 22}\label{subfig:right}
+	\end{subfigure}
+	\caption{The corrected data }\label{fig:subfigures}
+\end{figure}
+
 
 \subsection{Model 2}
 \subsubsection{Basic information of Model 2}
@@ -287,7 +324,7 @@ The model established for the second question and the third question is basicall
 
 
 Uncertainty: Different grading scales for words may conflict with each other
-Confidence is expressed by correlation coefficient. 0.56 xx
+Confidence is expressed by correlation coefficient. 0.5604.
 
 \begin{equation}
 	\large f(x) =  a_1\cdot e^{-\frac{x-b_1}{c_1}^2}
@@ -357,6 +394,7 @@ $$Coefficient(Confidence bounds: 95\%)$$
 		\end{tabular}\label{tb:notation}
 	\end{center}
 \end{table}
+
 
 \begin{table}[!htbp]
 	\begin{center}
@@ -428,8 +466,20 @@ $$Coefficient(Confidence bounds: 95\%)$$
 
 \clearpage
 
-In total 
+EERIE then uses the above evaluation system to get his relevant indicators.
+For the analysis of the percentage of times of each word, we believe that it is a discrete point conforming to a normal distribution, and only a few cases do not conform to it. Its distribution is just like human height and weight, which should obey the normal distribution.
+From there, we looked at the percentage distribution for each word, and we found some correlation. For example, the more difficult the word, the higher the mean of the normal distribution function (corresponding to the number of guesses required to guess the word).
+Our idea is to divide the 359 words in the system into five levels according to the uniform number of sample values through the evaluation system in our second question. The corresponding difficulty coefficient evaluation score is (0-0.25), (0.25-0.30), (0.30-0.37), (0.37-0.7), (0.7-1.0) (divided according to the number of samples, each section of grade has the relatively same amount of words). Of course, the percentage distribution of all words in each difficulty interval is normal, and their mean and variance should be similar.
+We evaluate the percentage of each degree of a word by fitting the data normal distribution function.
 
+
+Easy, Relatively easy, Normal, Relatively hard, Hard
+
+\begin{figure}[htbp]
+	\centering
+\includegraphics[width=0.9\textwidth]{Level.png}
+\caption{Diffculity Level}\label{fig:result}
+\end{figure}
 
 
 
@@ -446,8 +496,45 @@ In total
 
 
 \clearpage
-\subsubsection{Commetary on Model 3}
-The instance of long and wide tables are shown in Table \ref{tb:longtable}.
+\subsubsection{Model 3}
+
+
+
+Select the attributes of the word: (1) letter frequency; (2) Word frequency (3) whether there are repeated letters; (4) The number of vowels; (5) more than three repetitions; (6) Whether the beginning word is a vowel sound; (7) Whether the ending is a vowel sound; (8) Continuous repetition.
+Since each attribute has a different dimension, normalization is used to group all data into the same dimension between 0 and 1
+After we analyzed all the attributes, we selected a few important ones for analysis
+(1) Letter frequency
+Using all the letters in issue 359 as a sample to estimate the frequency of each of the five letter words,
+A table of letter frequencies
+Add up the five letter frequencies for each word to represent how common the letters in that word are
+
+
+Use linear normalization:
+
+\begin{equation}
+	x' = \frac{x-min(x)}{max(x)-min(x)}
+\end{equation}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{RED1.jpg}
+	\caption{ The attritube of words}\label{fig:result}
+\end{figure}
+
+
+
+Normalize the letter frequencies of all words to a range of 0 to 1
+(2) Word frequency: Find the frequency of corresponding words from MXC database, and use logarithmic normalization and then linear normalization to make the frequency of words fall into the range of 0-1
+(3),(5),(6),(7),(8) are all 0,1 distribution so they don't need to be normalized
+(4) Uniform normalization is also adopted
+The average number of words: the weighted method is adopted to calculate the average number of words. Seven times and above are identified as seven times. (Add the formula and calculate an average number of times for example) The uniform normalization method is also adopted to normalize the average number of times
+Then the average number of guesses equal the difficulty of the word.
+Calculate covariance coefficients between (1)-(7) and difficulty to represent their relationship.
+
+
+
+The correlation between word frequency, letter frequency and repetition is relatively large. The three attributes of words are weighted to get the weight, and then the evaluation system is established. After evaluating all the words, the cocorrelation coefficient between our evaluation system and the average number of times can reach 0.5, which is a very effective improvement.
+
 
 % 长表格示例，更多用法请参考 longtable 宏包文档
 % 以下环境及对应参数可实现表格内的自动换行与表格的自动断页
